@@ -59,5 +59,16 @@
     onload="document.getElementById('loader').style.opacity='0'; setTimeout(function(){document.getElementById('loader').style.display='none';}, 300);">
   </iframe>
 
+  <script>
+    // The embedded app can't navigate us directly (Google's sandbox blocks
+    // that for third-party wrapped content) — instead it sends us a message
+    // asking us to change our OWN iframe's src, which we're allowed to do.
+    window.addEventListener('message', function (event) {
+      if (event.data && event.data.type === 'ucm-navigate' && event.data.url) {
+        document.getElementById('app-frame').src = event.data.url;
+      }
+    });
+  </script>
+
 </body>
 </html>
