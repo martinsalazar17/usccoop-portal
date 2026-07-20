@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>USC Coop Mart</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#22311d">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Coop Mart">
 <style>
   html, body {
     margin: 0;
@@ -68,6 +74,16 @@
         document.getElementById('app-frame').src = event.data.url;
       }
     });
+
+    // Register service worker so the browser offers "Add to Home Screen" /
+    // install prompt. Doesn't cache the order form itself (see sw.js notes).
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function (err) {
+          console.warn('Service worker registration failed:', err);
+        });
+      });
+    }
   </script>
 
 </body>
